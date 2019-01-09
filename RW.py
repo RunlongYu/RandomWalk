@@ -1,7 +1,7 @@
 # Implement Random Walk.
 # Random Walk estimates the user's preference on an item via
 # the average of all reachable users' preference on that item.
-# @author Runlong Yu, Han Wu, Weibo Gao
+# @author Runlong Yu, Weibo Gao, Han Wu
 
 from collections import defaultdict
 import numpy as np
@@ -13,7 +13,7 @@ import Graph
 class RW:
     user_count = 943
     item_count = 1682
-    walk_length = 100
+    walk_length = 20
     train_data_path = 'train.txt'
     test_data_path = 'test.txt'
     size_u_i = user_count * item_count
@@ -51,14 +51,13 @@ class RW:
                 for item in user_ratings[i]:
                     if item in user_ratings[j]:
                         count += 1
-                if count > 10:
+                if count >= 5:
                     temp_list.append(str(i) + ' ' + str(j) + ' ' + str(count))
         with open('Graph.txt', 'w') as f:
             for line in temp_list:
                 f.write(line + '\n')
         G = nx.read_edgelist('Graph.txt', nodetype=int, data=(('weight', float),), create_using=nx.DiGraph())
         G = G.to_undirected()
-        print ('len:', len(G.nodes()))
         return G
 
     def walk2predict(self, user_ratings, walks):
