@@ -1,3 +1,5 @@
+# @author Runlong Yu, Weibo Gao
+
 import random
 import numpy as np
 
